@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Exercise {
+  id            Int         @id @default(autoincrement())
+  name          String      @unique @db.VarChar(100)
+  description   String      @db.VarChar(255)
+  muscularGroup MuscleGroup
+  difficulty    Difficulty
+  category      Category
+  equipment     Equipment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  routines  RoutineExercise[]
+  @@map("exercises")
+}
+
+model Routine {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique @db.VarChar(100)
+  description String     @db.VarChar(255)
+  aproxDuration Int @default(60) // in minutes
+  difficulty  Difficulty
+  category    Category
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  exercises  RoutineExercise[]
+  @@map("workouts")
+}
+
+model RoutineExercise {
+  id          Int      @id @default(autoincrement())
+  routineId   Int
+  exerciseId  Int
+  sets        Int @default(3)
+  reps        Int @default(10)
+  rest        Int @default(180) // in seconds
+  weight      Int @default(0) // in kg
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  routine    Routine   @relation(fields: [routineId], references: [id])
+  exercise   Exercise  @relation(fields: [exerciseId], references: [id])
+
+  @@map("routine_exercises")
+}
+
+enum MuscleGroup {
+  CHEST
+  BACK
+  SHOULDERS
+  BICEPS
+  TRICEPS
+  FOREARMS
+  CORE
+  GLUTES
+  QUADRICEPS
+  HAMSTRINGS
+  CALVES
+  FULL_BODY
+}
+
+enum Category {
+  STRENGTH
+  CARDIO
+  FLEXIBILITY
+  BALANCE
+  ENDURANCE
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum Equipment {
+  DUMBBELLS
+  BARBELL
+  KETTLEBELL
+  RESISTANCE_BANDS
+  BODYWEIGHT
+  MACHINES
+  MEDICINE_BALL
+  BOSU_BALL
+  YOGA_MAT
+}
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
