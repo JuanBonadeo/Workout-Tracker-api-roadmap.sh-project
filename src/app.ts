@@ -1,6 +1,7 @@
 import express from 'express';
 import { router as routerExercise} from './Exercise/exercise.routes.js';
 import { router as routerRoutine } from './Routine/routine.routes.js';
+import { router as routerRoutineExercises } from './RoutineExercises/routineExercises.routes.js';
 
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 
 
 // Routes
+app.use('/routineExercises', routerRoutineExercises);
 app.use('/exercises', routerExercise);
 app.use('/routines', routerRoutine);
 

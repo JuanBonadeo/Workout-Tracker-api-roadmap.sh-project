@@ -1,32 +1,29 @@
 import { Request, Response } from "express";
-
 import { ErrorHandler, NotFoundError } from "../Helpers/ErrorHandler.js";
-import { RoutineExerciseDao } from "./routineExercise.dao.js";
+import { RoutineExercisesDao } from "./routineExercises.dao.js";
 import { ResponseHandler } from "../Helpers/ResponseHandler.js";
-import { createRoutineExerciseSchema, idRoutineParamsSchema, updateRoutineExerciseSchema } from "./routineExercise.dtos.js";
+import { createRoutineExerciseSchema, idRoutineParamsSchema, updateRoutineExerciseSchema } from "./routineExercises.dtos.js";
 
 
-
-
-
-export class RoutineExerciseController {
+export class RoutineExercisesController {
     dao: any;
 
     constructor() {
-        this.dao = new RoutineExerciseDao();
+        this.dao = new RoutineExercisesDao();
     }
 
-    async create(req: Request, res: Response) {
+    async getAll(req: Request, res: Response) {
         try {
-            const validatedBody = createRoutineExerciseSchema.parse(req.body);
-            const newRoutineExercise = await this.dao.create(validatedBody);
-            return ResponseHandler.created(res, newRoutineExercise);
+            const routineExercises = await this.dao.getAll();
+            return ResponseHandler.success(res, routineExercises);
         } catch (error) {
+            console.error('Error fetching all routine exercises:', error);
             return ErrorHandler.handle(error, res);
         }
     }
 
     async getOne(req: Request, res: Response) {
+
         try {
             const id = idRoutineParamsSchema.parse(req.params.id);
             const routineExercise = await this.dao.getOne(id);
@@ -39,20 +36,15 @@ export class RoutineExerciseController {
         }
     }
 
-
-    async getByRoutineId(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         try {
-            const routineId = idRoutineParamsSchema.parse(req.params.routineId);
-            const routineExercises = await this.dao.getByRoutineId(routineId);
-            if (!routineExercises) {
-                throw new NotFoundError('No se encontraron ejercicios para esta rutina');
-            }
-            return ResponseHandler.success(res, routineExercises);
+            const validatedBody = createRoutineExerciseSchema.parse(req.body);
+            const newRoutineExercise = await this.dao.create(validatedBody);
+            return ResponseHandler.created(res, newRoutineExercise);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }
     }
-
 
     async update(req: Request, res: Response) {
         try {
@@ -70,6 +62,19 @@ export class RoutineExerciseController {
         try {
             await this.dao.delete(id);
             return ResponseHandler.success(res, null, 'Ejercicio en rutina eliminado correctamente');
+        } catch (error) {
+            return ErrorHandler.handle(error, res);
+        }
+    }
+    
+    async getByRoutineId(req: Request, res: Response) {
+        try {
+            const routineId = idRoutineParamsSchema.parse(req.params.routineId);
+            const routineExercises = await this.dao.getByRoutineId(routineId);
+            if (!routineExercises) {
+                throw new NotFoundError('No se encontraron ejercicios para esta rutina');
+            }
+            return ResponseHandler.success(res, routineExercises);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }

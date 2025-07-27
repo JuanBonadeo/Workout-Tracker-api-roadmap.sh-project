@@ -1,4 +1,4 @@
-import prisma from "../database/prisma/client.js";
+import prisma from "../db/client.js";
 
 
 export class RoutineDao {

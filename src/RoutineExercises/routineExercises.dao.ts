@@ -1,9 +1,9 @@
-import prisma from "../database/prisma/client.js";
+import prisma from "../db/client.js";
 
 
-export class RoutineExerciseDao {
-    async create(data: any) {
-        return prisma.routineExercise.create({ data });
+export class RoutineExercisesDao {
+    async getAll() {
+        return prisma.routineExercise.findMany();
     }
 
     async getOne(id: number) {
@@ -11,11 +11,16 @@ export class RoutineExerciseDao {
             where: { id }
         });
     }
+    
+    async create(data: any) {
+        return prisma.routineExercise.create({ data });
+    }
+
     getByRoutineId(routineId: number) {
-        return prisma.routineExercise.findMany({
-            where: { routineId },
+        return prisma.routine.findMany({
+            where: { id: routineId },
             include: {
-                exercise: true 
+                exercises: true
             }
         });
     }

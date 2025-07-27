@@ -12,8 +12,6 @@ export const createRoutineExerciseSchema = z.object({
 
 
 export const updateRoutineExerciseSchema = z.object({
-    routineId: z.number().int().positive('El ID de la rutina debe ser un número positivo'),
-    exerciseId: z.number().int().positive('El ID del ejercicio debe ser un número positivo'),
     sets: z.number().int().min(1, 'El número de series debe ser al menos 1').default(3).optional(),
     reps: z.number().int().min(1, 'El número de repeticiones debe ser al menos 1').default(10).optional(),
     rest: z.number().int().min(0, 'El tiempo de descanso no puede ser negativo').default(180).optional(), // in seconds
