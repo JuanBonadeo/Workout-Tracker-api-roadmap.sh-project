@@ -2,6 +2,7 @@ import express from 'express';
 import { router as routerExercise} from './Exercise/exercise.routes.js';
 import { router as routerRoutine } from './Routine/routine.routes.js';
 import { router as routerRoutineExercises } from './RoutineExercises/routineExercises.routes.js';
+import { router as routerUser } from './User/user.routes.js';
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/routineExercises', routerRoutineExercises);
 app.use('/exercises', routerExercise);
 app.use('/routines', routerRoutine);
+app.use('/users', routerUser);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);

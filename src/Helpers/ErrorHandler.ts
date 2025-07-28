@@ -16,6 +16,21 @@ export class BadRequestError extends Error {
     this.name = "BadRequestError";
   }
 }
+export class UnauthorizedError extends Error {
+  constructor(message = "No autorizado") {
+    super(message);
+    this.name = "UnauthorizedError";
+  }
+}
+
+export class ForbiddenError extends Error {
+  constructor(message = "Acceso prohibido") {
+    super(message);
+    this.name = "ForbiddenError";
+  }
+}
+
+
 
 interface ApiError {
   success?: boolean;
@@ -86,10 +101,18 @@ export class ErrorHandler {
       return res.status(400).json({ success: false, error: error.message, code: 'BAD_REQUEST' });
     }
 
+    if (error instanceof UnauthorizedError) {
+      return res.status(401).json({ success: false, error: error.message, code: 'UNAUTHORIZED' });
+    }
+
+    if (error instanceof ForbiddenError) {
+      return res.status(403).json({ success: false, error: error.message, code: 'FORBIDDEN' });
+    }
+
     // Otro error genérico
     return res.status(500).json({
       success: false,
-      error: 'Error interno del servidor',
+      error: error,
       code: 'INTERNAL_SERVER_ERROR'
     });
   }
