@@ -28,4 +28,5 @@ export class UserDao  {
             where: { id }
         });
     }
+
 }

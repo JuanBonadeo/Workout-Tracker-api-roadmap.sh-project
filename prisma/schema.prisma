@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
@@ -13,22 +8,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique @db.VarChar(100)
-  password  String   @db.VarChar(255)
-  firstName String   @db.VarChar(50)
-  lastName  String   @db.VarChar(50)
+  id        Int    @id @default(autoincrement())
+  email     String @unique @db.VarChar(100)
+  password  String @db.VarChar(255)
+  firstName String @db.VarChar(50)
+  lastName  String @db.VarChar(50)
   age       Int?
-  height    Int?     // in cm
-  weight    Int?     // in kg
+  height    Int? // in cm
+  weight    Int? // in kg
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  workouts  Workout[]
 
   @@map("users")
 }
+
 model Exercise {
   id            Int         @id @default(autoincrement())
   name          String      @unique @db.VarChar(100)
@@ -38,44 +34,98 @@ model Exercise {
   category      Category
   equipment     Equipment[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  
   routines  RoutineExercise[]
+  workoutExercises  WorkoutExercise[]
+
   @@map("exercises")
 }
 
 model Routine {
-  id          Int        @id @default(autoincrement())
-  name        String     @unique @db.VarChar(100)
-  description String     @db.VarChar(255)
-  aproxDuration Int @default(60) // in minutes
-  difficulty  Difficulty
-  category    Category
+  id            Int        @id @default(autoincrement())
+  name          String     @unique @db.VarChar(100)
+  description   String     @db.VarChar(255)
+  aproxDuration Int        @default(60) // in minutes
+  difficulty    Difficulty
+  category      Category
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  exercises  RoutineExercise[]
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  exercises RoutineExercise[]
+  workouts Workout[]
 
   @@map("routines")
 }
 
 model RoutineExercise {
-  id          Int      @id @default(autoincrement())
-  routineId   Int
-  exerciseId  Int
-  sets        Int @default(3)
-  reps        Int @default(10)
-  rest        Int @default(180) // in seconds
-  weight      Int @default(0) // in kg
+  id            Int @id @default(autoincrement())
+  routineId     Int
+  exerciseId    Int
+  rest          Int @default(180) // in seconds
+  setsPlanned   Int @default(3)
+  repsPlanned   Int @default(10)
+  weightPlanned Int @default(0) // in kg
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  routine    Routine   @relation(fields: [routineId], references: [id])
-  exercise   Exercise  @relation(fields: [exerciseId], references: [id])
-  @@unique([routineId, exerciseId])
+  routine  Routine  @relation(fields: [routineId], references: [id])
+  exercise Exercise @relation(fields: [exerciseId], references: [id])
 
+  @@unique([routineId, exerciseId])
   @@map("routine_exercises")
+}
+
+model Workout {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  description String @db.VarChar(255)
+  userId    Int
+  routineId Int
+  date      DateTime @default(now())
+  durationRegistered  Int      @default(60) // in minutes
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  routine Routine @relation(fields: [routineId], references: [id])
+
+  exercises WorkoutExercise[]
+  @@map("workouts")
+}
+
+model WorkoutExercise {
+  id              Int      @id @default(autoincrement())
+  workoutId       Int
+  exerciseId      Int
+  weightSuggested Int      @default(0)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  workout    Workout  @relation(fields: [workoutId], references: [id])
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  setsDetails WorkoutExerciseSet[]
+
+  @@unique([workoutId, exerciseId])
+  @@map("workout_exercises")
+}
+
+model WorkoutExerciseSet {
+  id                Int      @id @default(autoincrement())
+  workoutExerciseId Int
+  setNumber         Int
+  reps              Int
+  weight            Int
+
+  createdAt         DateTime @default(now())
+  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
+
+  @@map("workout_exercise_sets")
 }
 
 enum MuscleGroup {
@@ -119,4 +169,3 @@ enum Equipment {
   BOSU_BALL
   YOGA_MAT
 }
-

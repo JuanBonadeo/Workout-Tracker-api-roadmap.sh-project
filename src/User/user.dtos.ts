@@ -1,7 +1,6 @@
 import z from "zod";
 
 
-
 export const idUserParamsSchema = z
     .string()
     .transform((val: string) => parseInt(val))
