@@ -1,11 +1,11 @@
 import express from 'express';
-import { router as routerExercise} from './Exercise/exercise.routes.js';
-import { router as routerRoutine } from './Routine/routine.routes.js';
-import { router as routerRoutineExercises } from './RoutineExercises/routineExercises.routes.js';
-import { router as routerUser } from './User/user.routes.js';
-import { router as routerWorkout } from './Workout/workout.routes.js';
-import { router as routerWorkoutExercise } from './WorkoutExerciseLog/workoutExercise.routes.js';
-import { router as routerSetLog } from './SetLog/setLog.routes.js';
+import { router as routerExercise} from './modules/Exercise/exercise.routes.js';
+import { router as routerRoutine } from './modules/Routine/routine.routes.js';
+import { router as routerRoutineExercises } from './modules/RoutineExercises/routineExercises.routes.js';
+import { router as routerUser } from './modules/User/user.routes.js';
+import { router as routerWorkout } from './modules/Workout/workout.routes.js';
+import { router as routerWorkoutExercise } from './modules/WorkoutExerciseLog/workoutExercise.routes.js';
+import { router as routerSetLog } from './modules/SetLog/setLog.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,7 +21,7 @@ app.use('/routines', routerRoutine);
 app.use('/users', routerUser);
 app.use('/workouts', routerWorkout);
 app.use('/workoutExercises', routerWorkoutExercise);
-app.use('/setLogs', routerSetLog); // Assuming set logs are part of workout exercises
+app.use('/setLogs', routerSetLog); 
 
 
 

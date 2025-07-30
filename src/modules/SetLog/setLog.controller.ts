@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ErrorHandler, NotFoundError } from "../Helpers/ErrorHandler.js";
-import { ResponseHandler } from "../Helpers/ResponseHandler.js";
+import { ErrorHandler, NotFoundError } from "../../Helpers/ErrorHandler.js";
+import { ResponseHandler } from "../../Helpers/ResponseHandler.js";
 import { SetlogDao } from "./setLog.dao.js";
 import { CreateSetLogSchema, idSchema, UpdateSetLogSchema } from "./setLog.dtos.js";
 
