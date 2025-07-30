@@ -11,7 +11,9 @@ export const createWorkoutSchema = z.object({
     description: z.string().min(2, 'La descripción debe tener al menos 2 caracteres').max(500, 'La descripción no puede exceder los 500 caracteres'),
     userId: idSchema,
     routineId: idSchema,
-    date: z.date().default(() => new Date()),
+    date: z.preprocess((arg) => {
+        if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
+    }, z.date()),
     durationRegistered: z.number().min(0).optional(),
 });
 
@@ -19,7 +21,9 @@ export const updateWorkoutSchema = z.object({
     name: z.string().min(2).max(100).optional(),
     description: z.string().min(2).max(500).optional(),
     durationRegistered: z.number().min(0).optional(),
-    date: z.date().optional()
+    date: z.preprocess((arg) => {
+        if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
+    }, z.date()).optional(),
 });
 
 export const idWorkoutParamsSchema = z

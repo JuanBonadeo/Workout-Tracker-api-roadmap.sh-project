@@ -5,7 +5,15 @@ import { CreateWorkoutBody, UpdateWorkoutBody } from "./workout.dtos.js";
 export class WorkoutDao {
     async getOne(id: number) {
         return prisma.workout.findUnique({
-            where: { id }
+            where: { id },
+            include: { 
+                exercises: {
+                    include: {
+                        exercise: true,
+                        setsDetails: true
+                    }
+                },
+            }
         });
     }
     
@@ -14,9 +22,7 @@ export class WorkoutDao {
     }
 
     async create(data: CreateWorkoutBody) {
-        return prisma.workout.create({
-            data
-        });
+        return prisma.workout.create({ data });
     }
 
     async update(id: number, data: UpdateWorkoutBody) {
@@ -34,7 +40,20 @@ export class WorkoutDao {
 
     async getByUserId(userId: number) {
         return await prisma.workout.findMany({
-            where: { userId }
+            where: { userId },
+            include: { 
+                exercises: {
+                    include: {
+                        exercise: true,
+                        setsDetails: true
+                    }
+                },
+                _count: {
+                    select: { exercises: true }
+                },
+                
+            
+            }
         });
     }
 }

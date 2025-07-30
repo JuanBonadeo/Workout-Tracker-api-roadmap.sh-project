@@ -14,6 +14,6 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
     },
-    "include": ["src/**/*", "**/*.ts", "types/**/*"],
+    "include": ["src/**/*", "**/*.ts", "types/**/*", "src/WorkoutExerciseLog"],
     "exclude": ["node_modules"]
 }

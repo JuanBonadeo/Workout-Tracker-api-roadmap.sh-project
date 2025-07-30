@@ -16,14 +16,7 @@ export class RoutineExercisesDao {
         return prisma.routineExercise.create({ data });
     }
 
-    getByRoutineId(routineId: number) {
-        return prisma.routine.findMany({
-            where: { id: routineId },
-            include: {
-                exercises: true
-            }
-        });
-    }
+
 
     async update(id: number, data: any) {
         return prisma.routineExercise.update({

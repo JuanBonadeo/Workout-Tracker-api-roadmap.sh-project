@@ -67,16 +67,4 @@ export class RoutineExercisesController {
         }
     }
     
-    async getByRoutineId(req: Request, res: Response) {
-        try {
-            const routineId = idRoutineParamsSchema.parse(req.params.routineId);
-            const routineExercises = await this.dao.getByRoutineId(routineId);
-            if (!routineExercises) {
-                throw new NotFoundError('No se encontraron ejercicios para esta rutina');
-            }
-            return ResponseHandler.success(res, routineExercises);
-        } catch (error) {
-            return ErrorHandler.handle(error, res);
-        }
-    }
 }

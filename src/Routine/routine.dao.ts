@@ -7,7 +7,8 @@ export class RoutineDao {
     }
     async getOne(id: number) {
         return prisma.routine.findUnique({
-            where: { id }
+            where: { id },
+            include: { exercises: true }
         });
     }
     async create(data: any) {

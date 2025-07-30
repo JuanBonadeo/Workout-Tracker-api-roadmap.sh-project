@@ -38,7 +38,7 @@ model Exercise {
   updatedAt DateTime          @updatedAt
   
   routines  RoutineExercise[]
-  workoutExercises  WorkoutExercise[]
+  workoutExercises  WorkoutExerciseLog[]
 
   @@map("exercises")
 }
@@ -94,28 +94,27 @@ model Workout {
   user    User    @relation(fields: [userId], references: [id])
   routine Routine @relation(fields: [routineId], references: [id])
 
-  exercises WorkoutExercise[]
+  exercises WorkoutExerciseLog[]
   @@map("workouts")
 }
 
-model WorkoutExercise {
+model WorkoutExerciseLog {
   id              Int      @id @default(autoincrement())
   workoutId       Int
   exerciseId      Int
-  weightSuggested Int      @default(0)
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   workout    Workout  @relation(fields: [workoutId], references: [id])
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  setsDetails WorkoutExerciseSet[]
+  setsDetails SetLog[]
 
   @@unique([workoutId, exerciseId])
   @@map("workout_exercises")
 }
 
-model WorkoutExerciseSet {
+model SetLog {
   id                Int      @id @default(autoincrement())
   workoutExerciseId Int
   setNumber         Int
@@ -123,7 +122,7 @@ model WorkoutExerciseSet {
   weight            Int
 
   createdAt         DateTime @default(now())
-  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
+  workoutExercise   WorkoutExerciseLog @relation(fields: [workoutExerciseId], references: [id])
 
   @@map("workout_exercise_sets")
 }
