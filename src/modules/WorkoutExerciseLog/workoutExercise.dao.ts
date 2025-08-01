@@ -1,7 +1,5 @@
-import prisma from "../db/client.js";
+import prisma from "../../db/client.js";
 import { CreateWorkoutExerciseBody } from "./workoutExercise.dtos.js";
-
-
 
 export class WorkouExerciseDao {
     async getAll() {
@@ -27,7 +25,6 @@ export class WorkouExerciseDao {
         });
     }
 
-    // Workout Exercise Set
 
  
 

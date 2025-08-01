@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { ExerciseDao } from "./exercise.dao.js";
 import { createExerciseSchema, idExerciseParamsSchema, updateExerciseSchema } from "./exercise.dtos.js";
-import { ErrorHandler, NotFoundError } from "../Helpers/ErrorHandler.js";
-import { ResponseHandler } from "../Helpers/ResponseHandler.js";
+import { ErrorHandler, NotFoundError } from "../../Helpers/ErrorHandler.js";
+import { ResponseHandler } from "../../Helpers/ResponseHandler.js";
 
 
 

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import { ErrorHandler, NotFoundError } from "../Helpers/ErrorHandler.js";
-import { ResponseHandler } from "../Helpers/ResponseHandler.js";
+import { ErrorHandler, NotFoundError } from "../../Helpers/ErrorHandler.js";
+import { ResponseHandler } from "../../Helpers/ResponseHandler.js";
 import { RoutineDao } from "./routine.dao.js";
 import { createRoutineSchema, idRoutineParamsSchema, updateRoutineSchema } from "./routine.dtos.js";
 

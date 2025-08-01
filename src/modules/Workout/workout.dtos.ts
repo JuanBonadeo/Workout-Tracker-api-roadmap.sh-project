@@ -13,7 +13,7 @@ export const createWorkoutSchema = z.object({
     routineId: idSchema,
     date: z.preprocess((arg) => {
         if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
-    }, z.date()),
+    }, z.date()).optional(),
     durationRegistered: z.number().min(0).optional(),
 });
 

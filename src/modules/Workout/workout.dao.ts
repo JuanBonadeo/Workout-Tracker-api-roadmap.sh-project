@@ -1,4 +1,4 @@
-import prisma from "../db/client.js";
+import prisma from "../../db/client.js";
 import { CreateWorkoutBody, UpdateWorkoutBody } from "./workout.dtos.js";
 
 
@@ -22,7 +22,14 @@ export class WorkoutDao {
     }
 
     async create(data: CreateWorkoutBody) {
-        return prisma.workout.create({ data });
+        return prisma.workout.create(
+            {
+                data,
+                include: {
+                    exercises: true,
+                }
+            }
+        );
     }
 
     async update(id: number, data: UpdateWorkoutBody) {

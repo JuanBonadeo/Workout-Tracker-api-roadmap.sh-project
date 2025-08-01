@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { ErrorHandler, NotFoundError, UnauthorizedError } from "../Helpers/ErrorHandler.js";
-import { ResponseHandler } from "../Helpers/ResponseHandler.js";
+import { ErrorHandler, NotFoundError, UnauthorizedError } from "../../Helpers/ErrorHandler.js";
+import { ResponseHandler } from "../../Helpers/ResponseHandler.js";
 import { UserDao } from "./user.dao.js";
 import { createUserSchema, idUserParamsSchema, signinUserSchema, updateUserSchema } from './user.dtos.js';
-import { generateToken } from "../Helpers/jwt.js";
+import { generateToken } from "../../Helpers/jwt.js";
 
 
 

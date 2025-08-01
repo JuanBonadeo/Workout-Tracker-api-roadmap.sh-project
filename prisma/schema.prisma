@@ -108,7 +108,7 @@ model WorkoutExerciseLog {
 
   workout    Workout  @relation(fields: [workoutId], references: [id])
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  setsDetails SetLog[]
+  setsLogs SetLog[]
 
   @@unique([workoutId, exerciseId])
   @@map("workout_exercises")

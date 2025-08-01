@@ -1,7 +1,7 @@
 
 import { Router } from "express";
 import { UserController } from "./user.controller.js";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { authMiddleware } from "../../middlewares/auth.middleware.js";
 
 
 

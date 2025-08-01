@@ -1,4 +1,4 @@
-import prisma from "../db/client.js";
+import prisma from "../../db/client.js";
 
 
 export class RoutineDao {
@@ -24,6 +24,15 @@ export class RoutineDao {
     async delete(id: number) {
         return prisma.routine.delete({
             where: { id }
+        });
+    }
+
+    async getExercisesByRoutineId(id: number) {
+        return prisma.routine.findMany({
+            where: { id },
+            include: {
+                exercises: true
+            }
         });
     }
 }

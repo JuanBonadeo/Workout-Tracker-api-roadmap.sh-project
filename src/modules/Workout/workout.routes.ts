@@ -12,7 +12,7 @@ router.get('/', (req, res) => controller.getAll(req, res));
 
 router.get('/:id', (req, res) => controller.getOne(req, res));
 
-router.post('/', (req, res) => controller.create(req, res));
+router.post('/', (req, res) => controller.createWithExercises(req, res));
 
 router.put('/:id', (req, res) => controller.update(req, res));
 
