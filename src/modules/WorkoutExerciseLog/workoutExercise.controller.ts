@@ -62,7 +62,7 @@ export class WorkoutExerciseController {
                 throw new UnauthorizedError();
             }
             await this.dao.delete(id);
-            return ResponseHandler.success(res, null, 'Ejercicio del Entrenamiento eliminado correctamente');
+            return ResponseHandler.success(res, null);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }

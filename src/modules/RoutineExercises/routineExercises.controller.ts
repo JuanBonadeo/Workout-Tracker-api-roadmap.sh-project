@@ -17,7 +17,6 @@ export class RoutineExercisesController {
             const routineExercises = await this.dao.getAll();
             return ResponseHandler.success(res, routineExercises);
         } catch (error) {
-            console.error('Error fetching all routine exercises:', error);
             return ErrorHandler.handle(error, res);
         }
     }
@@ -28,7 +27,7 @@ export class RoutineExercisesController {
             const id = idRoutineParamsSchema.parse(req.params.id);
             const routineExercise = await this.dao.getOne(id);
             if (!routineExercise) {
-                throw new NotFoundError('Ejercicio en rutina no encontrado');
+                throw new NotFoundError();
             }
             return ResponseHandler.success(res, routineExercise);
         } catch (error) {
@@ -61,7 +60,7 @@ export class RoutineExercisesController {
         const id = idRoutineParamsSchema.parse(req.params.id);
         try {
             await this.dao.delete(id);
-            return ResponseHandler.success(res, null, 'Ejercicio en rutina eliminado correctamente');
+            return ResponseHandler.success(res, null);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }

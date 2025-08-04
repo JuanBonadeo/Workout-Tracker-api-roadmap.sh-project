@@ -29,7 +29,7 @@ export class RoutineController {
             const id = idRoutineParamsSchema.parse(req.params.id);
             const routine = await this.dao.getOne(id);
             if (!routine) {
-                throw new NotFoundError('Rutina no encontrada');
+                throw new NotFoundError();
             }
             return ResponseHandler.success(res, routine);
         } catch (error) {
@@ -62,7 +62,7 @@ export class RoutineController {
         const id = idRoutineParamsSchema.parse(req.params.id);
         try {
             await this.dao.delete(id);
-            return ResponseHandler.success(res, null, 'Rutina eliminada correctamente');
+            return ResponseHandler.success(res, null);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }

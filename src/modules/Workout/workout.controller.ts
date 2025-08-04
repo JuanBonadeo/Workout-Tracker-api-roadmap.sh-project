@@ -38,7 +38,7 @@ export class WorkoutController {
                 throw new NotFoundError();
             }
             if (workout.userId !== userId) {
-                throw new UnauthorizedError("No tienes permiso para acceder a este plan");
+                throw new UnauthorizedError();
             }
 
             return ResponseHandler.success(res, workout);
@@ -56,7 +56,6 @@ export class WorkoutController {
             const exercises = await this.routineDao.getExercisesByRoutineId(data.routineId);
             if (exercises.length > 0) {
                 for (const exercise of exercises) {
-                    console.log(`Creating workout exercise for workout ID: ${workout.id} and exercise ID: ${exercise.id}`);
                     await this.workoutExDao.create({
                         workoutId: workout.id,
                         exerciseId: exercise.id
@@ -104,7 +103,7 @@ export class WorkoutController {
             }
 
             await this.dao.delete(workoutId);
-            return ResponseHandler.success(res, null, 'Entrenamiento eliminado correctamente');
+            return ResponseHandler.success(res, null);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }

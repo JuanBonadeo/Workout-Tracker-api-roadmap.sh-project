@@ -28,7 +28,7 @@ export class ExerciseController {
             const id = idExerciseParamsSchema.parse(req.params.id);
             const exercise = await this.dao.getOne(id);
             if (!exercise) {
-                throw new NotFoundError('Ejercicio no encontrado')
+                throw new NotFoundError()
             }
             return ResponseHandler.success(res, exercise);
         } catch (error) {
@@ -61,7 +61,7 @@ export class ExerciseController {
         const id = idExerciseParamsSchema.parse(req.params.id);
         try {
             await this.dao.delete(id);
-            return ResponseHandler.success(res, null, 'Ejercicio eliminado');
+            return ResponseHandler.success(res, null);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }
