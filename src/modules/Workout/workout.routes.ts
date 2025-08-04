@@ -3,12 +3,11 @@ import { Router } from "express";
 export const router = Router();
 
 import { WorkoutController } from "./workout.controller.js";
+import { authMiddleware } from "../../middlewares/auth.middleware.js";
 
 const controller = new WorkoutController();
 
 router.get('/user/:userId', (req, res) => controller.getByUserId(req, res));
-
-router.get('/', (req, res) => controller.getAll(req, res));
 
 router.get('/:id', (req, res) => controller.getOne(req, res));
 

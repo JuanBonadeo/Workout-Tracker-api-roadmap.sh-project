@@ -2,20 +2,31 @@ import prisma from "../../db/client.js";
 import { CreateWorkoutExerciseBody } from "./workoutExercise.dtos.js";
 
 export class WorkouExerciseDao {
-    async getAll() {
-        return await prisma.workoutExerciseLog.findMany();
+    async getAllByUserId(userId: number) {
+        return await prisma.workoutExerciseLog.findMany({
+            where: { workout: { userId } },
+        });
     }
 
     async getOne(id: number) {
         return await prisma.workoutExerciseLog.findUnique(
             {
                 where: { id },
-                include: { setsDetails: true }
+                include: { setsDetails: true, workout: true }
             });
     }
 
     async create(data: CreateWorkoutExerciseBody) {
-        return await prisma.workoutExerciseLog.create({ data });
+        return await prisma.workoutExerciseLog.create(
+            {
+                data,
+                include: {
+                    workout: true
+                }
+
+            },
+
+        );
     }
 
 
@@ -26,6 +37,6 @@ export class WorkouExerciseDao {
     }
 
 
- 
+
 
 }

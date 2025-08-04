@@ -3,14 +3,16 @@ import { CreateSetLogBody, UpdateSetLogBody } from "./setLog.dtos.js";
 
 
 export class SetlogDao {
-    async getAll() {
-        return await prisma.setLog.findMany();
+    async getAllByUserId(userId: number) {
+        return await prisma.setLog.findMany({
+            where: { workoutExercise: { workout: { userId } } }
+        });
     }
 
     async getOne(id: number) {
         return await prisma.setLog.findUnique({
             where: { id },
-            include: { workoutExercise: true }
+            include: { workoutExercise: { include: { workout: true } } }
         });
     }
 
@@ -21,13 +23,15 @@ export class SetlogDao {
     async update(id: number, data: UpdateSetLogBody) {
         return await prisma.setLog.update({
             where: { id },
-            data
+            data,
+            include: { workoutExercise: { include: { workout: true } } }
         });
     }
 
     async delete(id: number) {
         return await prisma.setLog.delete({
-            where: { id }
+            where: { id },
+            include: { workoutExercise: { include: { workout: true } } }
         });
     }
 }
