@@ -25,20 +25,20 @@ export class UserController {
 
     async update(req: Request, res: Response) {
         try {
-            const id = idUserParamsSchema.parse(req.params.id);
+            const userId = (req as any).user.id;
             const validatedBody = updateUserSchema.parse(req.body);
-            const updatedExercise = await this.dao.update(id, validatedBody);
-            return ResponseHandler.updated(res, updatedExercise);
+            const updatedUser = await this.dao.update(userId, validatedBody);
+            return ResponseHandler.updated(res, updatedUser);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }
     }
 
     async delete(req: Request, res: Response) {
-        const id = idUserParamsSchema.parse(req.params.id);
+        const userId = (req as any).user.id;
         try {
-            await this.dao.delete(id);
-            return ResponseHandler.success(res, null, 'Usuario eliminado');
+            await this.dao.delete(userId);
+            return ResponseHandler.success(res, null);
         } catch (error) {
             return ErrorHandler.handle(error, res);
         }

@@ -18,6 +18,8 @@ model User {
   height    Int? // in cm
   weight    Int? // in kg
 
+  role      String @default("USER") // e.g., USER, ADMIN
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   workouts  Workout[]

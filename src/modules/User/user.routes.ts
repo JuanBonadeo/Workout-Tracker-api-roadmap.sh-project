@@ -9,7 +9,6 @@ export const router = Router();
 
 const controller = new UserController();
 
-router.post('/signup', (req, res) => controller.signup(req, res));
-router.post('/signin', (req, res) => controller.signin(req, res));
-
-router.get("/profile", authMiddleware, (req, res) => controller.getProfile(req, res));
+router.get('/', authMiddleware, (req, res) => controller.getAll(req, res));
+router.put('/:id', authMiddleware, (req, res) => controller.update(req, res));
+router.delete('/:id', authMiddleware, (req, res) => controller.delete(req, res));
